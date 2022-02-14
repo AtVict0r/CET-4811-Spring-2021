@@ -1,0 +1,75 @@
+<pre>
+<font color="#434f54">&#47;&#47; FileName: Serial_Control</font>
+<font color="#434f54">&#47;&#47; Board: &nbsp;&nbsp;&nbsp;Arduino Uno</font>
+<font color="#434f54">&#47;&#47; IDE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arduino 1.0</font>
+<font color="#434f54">&#47;&#47;</font>
+<font color="#434f54">&#47;&#47; F. Zia - 2011_1004, Updated: 2013_0213, 2018_0202</font>
+<font color="#434f54">&#47;&#47;</font>
+<font color="#434f54">&#47;&#47; read sensor value from analog input</font>
+<font color="#434f54">&#47;&#47; convert sensor value from 10-bits to 8-bits</font>
+<font color="#434f54">&#47;&#47; send sensor value to PC via serial port</font>
+<font color="#434f54">&#47;&#47;</font>
+<font color="#434f54">&#47;&#47; read command value from PC via serial port</font>
+<font color="#434f54">&#47;&#47; activate output device according to command value</font>
+
+<font color="#00979c">void</font> <font color="#5e6d03">setup</font><font color="#000000">(</font><font color="#000000">)</font> <font color="#000000">{</font>
+
+ &nbsp;<b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">begin</font><font color="#000000">(</font><font color="#000000">9600</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize serial port</font>
+
+ &nbsp;<font color="#d35400">pinMode</font><font color="#000000">(</font><font color="#000000">12</font><font color="#434f54">,</font> <font color="#00979c">OUTPUT</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize pin 12 as digital output</font>
+ &nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">12</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize output device to be OFF</font>
+
+ &nbsp;<font color="#d35400">pinMode</font><font color="#000000">(</font><font color="#000000">11</font><font color="#434f54">,</font> <font color="#00979c">OUTPUT</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize pin 11 as digital output</font>
+ &nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">11</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize output device to be OFF</font>
+
+ &nbsp;<font color="#d35400">pinMode</font><font color="#000000">(</font><font color="#000000">13</font><font color="#434f54">,</font> <font color="#00979c">OUTPUT</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; initialize pin 13 as digital output</font>
+<font color="#000000">}</font>
+
+<font color="#00979c">void</font> <font color="#5e6d03">loop</font><font color="#000000">(</font><font color="#000000">)</font> <font color="#000000">{</font>
+
+ &nbsp;<font color="#00979c">int</font> &nbsp;<font color="#000000">sensorVal</font><font color="#000000">;</font>
+ &nbsp;<font color="#00979c">char</font> <font color="#000000">command</font> <font color="#434f54">=</font> <font color="#000000">0</font><font color="#000000">;</font>
+
+ &nbsp;<font color="#434f54">&#47;&#47; Read sensor input value and send sensor value to PC</font>
+
+ &nbsp;<font color="#000000">sensorVal</font> <font color="#434f54">=</font> <font color="#d35400">analogRead</font><font color="#000000">(</font><font color="#000000">0</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; read sensor value from analog pin A0</font>
+ &nbsp;<font color="#000000">sensorVal</font> <font color="#434f54">=</font> <font color="#000000">sensorVal</font> <font color="#434f54">&gt;&gt;</font> <font color="#000000">2</font><font color="#000000">;</font> &nbsp;&nbsp;<font color="#434f54">&#47;&#47; convert sensor value from 10-bits to 8-bits ...</font>
+ &nbsp;<font color="#434f54">&#47;&#47; by using bit shift operation</font>
+
+ &nbsp;<b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">println</font><font color="#000000">(</font><font color="#000000">sensorVal</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; send sensor value to PC</font>
+
+ &nbsp;<font color="#434f54">&#47;&#47; Read command keystroke from PC and control output device (LED)</font>
+
+ &nbsp;<font color="#5e6d03">if</font> <font color="#000000">(</font><b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">available</font><font color="#000000">(</font><font color="#000000">)</font><font color="#000000">)</font>
+ &nbsp;&nbsp;&nbsp;<font color="#000000">command</font> <font color="#434f54">=</font> <b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">read</font><font color="#000000">(</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;&nbsp;<font color="#434f54">&#47;&#47; read command character from PC keyboard</font>
+
+ &nbsp;<font color="#5e6d03">switch</font> <font color="#000000">(</font><font color="#000000">command</font><font color="#000000">)</font> <font color="#000000">{</font> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; activate output device according to command</font>
+
+ &nbsp;&nbsp;&nbsp;<font color="#5e6d03">case</font> &nbsp;<font color="#00979c">&#39;0&#39;</font><font color="#434f54">:</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">12</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;<font color="#434f54">&#47;&#47; turn output device OFF</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#5e6d03">break</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;&nbsp;<font color="#5e6d03">case</font> &nbsp;<font color="#00979c">&#39;1&#39;</font><font color="#434f54">:</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">12</font><font color="#434f54">,</font> <font color="#00979c">HIGH</font><font color="#000000">)</font><font color="#000000">;</font> <font color="#434f54">&#47;&#47; turn output device ON</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#5e6d03">break</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;&nbsp;<font color="#5e6d03">case</font> &nbsp;<font color="#00979c">&#39;2&#39;</font><font color="#434f54">:</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">11</font><font color="#434f54">,</font> <font color="#00979c">HIGH</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;<font color="#434f54">&#47;&#47; turn output device OFF</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#5e6d03">break</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;&nbsp;<font color="#5e6d03">case</font> &nbsp;<font color="#00979c">&#39;3&#39;</font><font color="#434f54">:</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">11</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font> <font color="#434f54">&#47;&#47; turn output device ON</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#5e6d03">break</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;&nbsp;<font color="#5e6d03">default</font><font color="#434f54">:</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#434f54">&#47;&#47; do nothing for other command values</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#5e6d03">break</font><font color="#000000">;</font>
+ &nbsp;<font color="#000000">}</font>
+
+ &nbsp;<font color="#434f54">&#47;&#47; toggle pin 13 heartbeat LED to indicate that the code is running</font>
+
+ &nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">13</font><font color="#434f54">,</font> <font color="#00979c">HIGH</font><font color="#000000">)</font><font color="#000000">;</font> <font color="#d35400">delay</font><font color="#000000">(</font><font color="#000000">100</font><font color="#000000">)</font><font color="#000000">;</font>
+ &nbsp;<font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">13</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font> &nbsp;<font color="#d35400">delay</font><font color="#000000">(</font><font color="#000000">100</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#000000">}</font>
+
+</pre>

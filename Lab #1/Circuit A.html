@@ -1,0 +1,54 @@
+<pre>
+<font color="#95a5a6">&#47;*** header block ***</font>
+<font color="#95a5a6"> * code file name: Test_Digital_IO.ino</font>
+<font color="#95a5a6"> * code description: Use a digital switch to control an led</font>
+<font color="#95a5a6"> * hardware required: [UNO, USB Cable, Breadboard, Jumper Wires, Push Button, LED, 10k ohms Resistor, 330 ohms Resistor]</font>
+<font color="#95a5a6"> * IDE version used to test code: 1.8.13</font>
+<font color="#95a5a6"> * programmer(s) name: Oluwasegun Atolagbe</font>
+<font color="#95a5a6"> * date when code is created&#47;modified: 17&#47;02&#47;2021</font>
+<font color="#95a5a6"> * code version: 1.0</font>
+<font color="#95a5a6"> ***&#47;</font>
+
+<font color="#434f54">&#47;&#47; pre-processor directives</font>
+
+<font color="#434f54">&#47;&#47; pin name definitions</font>
+<font color="#00979c">const</font> <font color="#00979c">int</font> <font color="#000000">pushButton</font> <font color="#434f54">=</font> <font color="#000000">2</font><font color="#000000">;</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000">led</font> <font color="#434f54">=</font> <font color="#000000">13</font><font color="#000000">;</font>
+
+<font color="#434f54">&#47;&#47; class&#47;object declarations</font>
+
+<font color="#434f54">&#47;&#47; global variables</font>
+<font color="#00979c">bool</font> <font color="#000000">prevState</font><font color="#000000">;</font>
+
+<font color="#00979c">void</font> <font color="#5e6d03">setup</font> <font color="#000000">(</font><font color="#000000">)</font> <font color="#000000">{</font>
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; configure hardware peripherals</font>
+ &nbsp;&nbsp;<font color="#d35400">pinMode</font><font color="#000000">(</font><font color="#000000">pushButton</font><font color="#434f54">,</font> <font color="#00979c">INPUT</font><font color="#000000">)</font><font color="#000000">;</font>
+ &nbsp;&nbsp;<font color="#d35400">pinMode</font><font color="#000000">(</font><font color="#000000">led</font><font color="#434f54">,</font> <font color="#00979c">OUTPUT</font><font color="#000000">)</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; configure data communication</font>
+ &nbsp;&nbsp;<b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">begin</font><font color="#000000">(</font><font color="#000000">9600</font><font color="#000000">)</font><font color="#000000">;</font>
+
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; code that runs only once </font>
+ &nbsp;&nbsp;<font color="#000000">prevState</font> <font color="#434f54">=</font> <font color="#d35400">digitalRead</font><font color="#000000">(</font><font color="#000000">pushButton</font><font color="#000000">)</font><font color="#000000">;</font>
+<font color="#000000">}</font>
+
+<font color="#00979c">void</font> <font color="#5e6d03">loop</font> <font color="#000000">(</font><font color="#000000">)</font> <font color="#000000">{</font>
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; data storage</font>
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; data input</font>
+ &nbsp;&nbsp;<font color="#00979c">bool</font> <font color="#000000">buttonState</font> <font color="#434f54">=</font> <font color="#434f54">!</font><font color="#d35400">digitalRead</font><font color="#000000">(</font><font color="#000000">pushButton</font><font color="#000000">)</font><font color="#000000">;</font>
+ &nbsp;&nbsp;
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; data processing &nbsp;&nbsp;</font>
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; data output</font>
+ &nbsp;&nbsp;<font color="#000000">buttonState</font> <font color="#434f54">?</font> <font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">led</font><font color="#434f54">,</font> <font color="#00979c">HIGH</font><font color="#000000">)</font> <font color="#434f54">:</font> <font color="#d35400">digitalWrite</font><font color="#000000">(</font><font color="#000000">led</font><font color="#434f54">,</font> <font color="#00979c">LOW</font><font color="#000000">)</font><font color="#000000">;</font>
+ &nbsp;&nbsp;
+ &nbsp;&nbsp;<font color="#434f54">&#47;&#47; data communication</font>
+ &nbsp;&nbsp;<font color="#5e6d03">if</font><font color="#000000">(</font><font color="#000000">buttonState</font> <font color="#434f54">!=</font> <font color="#000000">prevState</font><font color="#000000">)</font>
+ &nbsp;&nbsp;<font color="#000000">{</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><font color="#d35400">Serial</font></b><font color="#434f54">.</font><font color="#d35400">println</font><font color="#000000">(</font><font color="#000000">buttonState</font><font color="#000000">)</font><font color="#000000">;</font>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#000000">prevState</font> <font color="#434f54">=</font> <font color="#000000">buttonState</font><font color="#000000">;</font>
+ &nbsp;&nbsp;<font color="#000000">}</font>
+<font color="#000000">}</font>
+
+<font color="#434f54">&#47;&#47; user defined functions</font>
+
+</pre>
